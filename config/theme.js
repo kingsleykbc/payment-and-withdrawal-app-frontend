@@ -11,7 +11,7 @@ const theme = {
     dangerHighlightColor: "#ffdee6",
     warningColor: "#ffaf0f",
     faintColor: "#fafaff",
-    blackColor: "#303030",    
+    blackColor: "#303030",
     textColor: "#000",
     lightText: "#7e799c",
     lightestText: "#d9d8e6",

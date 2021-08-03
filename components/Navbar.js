@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Link from 'next/link';
 import { AuthContext } from '../contexts/AuthContext';
-import Router from 'next/dist/next-server/server/router';
 
 const Navbar = () => {
 	const { isAuthenticated, userData, logout } = useContext(AuthContext);
@@ -14,9 +13,7 @@ const Navbar = () => {
 			</Link>
 
 			<nav>
-				{/* <Link href='/samurais'>
-					<a>Sanurai Listing</a>
-				</Link> */}
+				{/* <Link href='/samurais'> <a>Samurai Listing</a> </Link> */}
 
 				{isAuthenticated ? (
 					<>
