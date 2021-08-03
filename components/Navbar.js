@@ -7,20 +7,31 @@ const Navbar = () => {
 	const { isAuthenticated, userData, logout } = useContext(AuthContext);
 	return (
 		<>
-			<h1>{isAuthenticated ? userData.name : 'Samurai List'}</h1>
-			<nav>
-				<Link href='/'>
-					<a>Home</a>
-				</Link>
+			<Link href='/'>
+				<a>
+					<h1>{isAuthenticated ? userData.name : 'Samurai List'}</h1>
+				</a>
+			</Link>
 
+			<nav>
 				{/* <Link href='/samurais'>
 					<a>Sanurai Listing</a>
 				</Link> */}
 
 				{isAuthenticated ? (
-					<div className='a' onClick={() => logout(true)}>
-						Logout
-					</div>
+					<>
+						<Link href='/payment'>
+							<a>Payment</a>
+						</Link>
+
+						<Link href='/withdrawal'>
+							<a>Withdrawal</a>
+						</Link>
+
+						<div className='a' onClick={() => logout(true)}>
+							Logout
+						</div>
+					</>
 				) : (
 					<>
 						<Link href='/login'>
@@ -32,14 +43,6 @@ const Navbar = () => {
 						</Link>
 					</>
 				)}
-
-				<Link href='/payment'>
-					<a>Payment</a>
-				</Link>
-
-				<Link href='/withdrawal'>
-					<a>Withdrawal</a>
-				</Link>
 			</nav>
 
 			{/* STYLE */}
@@ -51,14 +54,14 @@ const Navbar = () => {
 				nav {
 					display: flex;
 					align-items: center;
-					max-width: 700px;
+					max-width: 800px;
 					margin: 20px auto;
 					padding: 10px;
 					background: rgb(35, 35, 35);
 					border-radius: 5px;
 				}
 
-				a,
+				nav a,
 				.a {
 					flex-grow: 1;
 					cursor: pointer;

@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
 			{/* STYLE */}
 			<style jsx>{`
 				main {
-					max-width: 700px;
+					max-width: 800px;
 					margin: auto;
 					padding: 15px 25px 25px 25px;
 				}

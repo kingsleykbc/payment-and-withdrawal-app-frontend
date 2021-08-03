@@ -59,6 +59,7 @@ class AuthContextProvider extends Component {
 				value={{
 					...this.state,
 					getUserData: this.getUserData,
+					refreshUserData: this.getUserData,
 					login: this.login,
 					logout: this.logout,
 					updateUser: this.updateUser

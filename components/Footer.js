@@ -9,7 +9,7 @@ const Footer = () => {
         footer {
           border-top: 1px solid #000;
           text-align: center;
-          max-width: 700px;
+          max-width: 800px;
           margin: 30px auto;
           padding: 20px;
           color: #888888;
