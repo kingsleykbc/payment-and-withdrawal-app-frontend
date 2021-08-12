@@ -89,6 +89,7 @@ const HorizontalScrollView = ({
           overflow-scrolling: touch;
           padding: 10px;
           margin: 0 25px;
+          border-radius: 10px;
           background: ${backgroundColor};
         }
 
@@ -103,7 +104,7 @@ const HorizontalScrollView = ({
           top: 50%;
           left: 0px;
           transform: translateY(-50%);
-          background: ${theme.colors.backgroundColor};
+          background: #000;
           cursor: pointer;
           height: 50px;
           z-index: 100;
@@ -136,7 +137,7 @@ const HorizontalScrollView = ({
         }
 
         .scrollButton :global(svg *){
-          fill: ${theme.colors.primaryColor};
+          fill: #fff;
         }
 
         .scrollButton:hover :global(svg *){

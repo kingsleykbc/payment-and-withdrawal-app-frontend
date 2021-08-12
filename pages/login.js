@@ -50,7 +50,14 @@ const Login = () => {
 			<h1>Login</h1>
 			<div>
 				<input placeholder='Email' type='text' onChange={({ target: { value } }) => setEmail(value)} />
-				<input placeholder='Password' type='text' onChange={({ target: { value } }) => setPassword(value)} />
+				<input
+					placeholder='Password'
+					type='text'
+					onKeyDown={({ keyCode }) => {
+						if (keyCode === 13) handleLogin();
+					}}
+					onChange={({ target: { value } }) => setPassword(value)}
+				/>
 			</div>
 			<br />
 			{error && <h5>{error}</h5>}

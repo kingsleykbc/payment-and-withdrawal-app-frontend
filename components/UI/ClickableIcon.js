@@ -17,7 +17,7 @@ const ClickableIcon = (
     <div className="ClickableIcon">
       <div className="iconCover" onClick={onClick}>{icon}</div>
 
-      { /* STYLE ======================================================================================= */}
+      { /* STYLE */}
       <style jsx>{`
         .iconCover {
           border: ${border};

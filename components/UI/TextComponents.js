@@ -1,9 +1,9 @@
 import React from 'react';
-import { slicer } from '../../functions/functions';
 import theme from '../../config/theme';
 import Container from './Container';
 import IcWarning from 'react-icons/lib/md/warning';
 import IcInfo from 'react-icons/lib/md/info-outline';
+import { slicer } from '../../utils/functions';
 
 // =======================================================================
 //  TEXT

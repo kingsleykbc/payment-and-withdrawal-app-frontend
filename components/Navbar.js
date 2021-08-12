@@ -17,7 +17,7 @@ const Navbar = () => {
 
 				{isAuthenticated ? (
 					<>
-						<Link href='/payment'>
+						<Link href='/'>
 							<a>Payment</a>
 						</Link>
 

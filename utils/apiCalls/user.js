@@ -8,9 +8,6 @@ import { protectedAPICall } from './auth';
  */
 export const getUser = async () => {
   const data = await protectedAPICall({ method: "get", url: `${DOMAIN}/customer` });
-  console.log("\n.DATA YS \n.\n.\n");
-  console.log(data);
-  console.log("\n.\n.\n.");
   return data;
 }
 

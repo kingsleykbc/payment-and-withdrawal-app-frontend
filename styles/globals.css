@@ -45,7 +45,7 @@ button:hover, .button:hover {
   color: #fff;
   transition: all linear 0.15s;
 }
-input {
+input:not([type=checkbox]):not([type=radio]), select, textarea{
   border: 2px solid #fff;
   border-radius: 5px;
   background: none;
@@ -54,4 +54,13 @@ input {
   margin: 10px 0;
   width: 100%;
   color: #fff;
+}
+
+h5 {
+  margin: 15px 0;
+  background: rgb(35,35,35);
+  padding: 10px 12px;
+  display: block;
+  color: rgb(254, 19, 109);
+  border-radius: 5px;
 }

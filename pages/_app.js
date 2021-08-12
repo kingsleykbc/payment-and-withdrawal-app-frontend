@@ -1,3 +1,4 @@
+import theme from '../config/theme';
 import AuthContextProvider from '../contexts/AuthContext';
 import '../styles/globals.css';
 
