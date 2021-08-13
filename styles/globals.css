@@ -64,3 +64,7 @@ h5 {
   color: rgb(254, 19, 109);
   border-radius: 5px;
 }
+
+@media screen and (max-width: 800px){
+  
+}

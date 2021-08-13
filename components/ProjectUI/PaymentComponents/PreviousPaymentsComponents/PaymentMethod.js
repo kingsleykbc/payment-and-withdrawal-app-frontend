@@ -47,12 +47,15 @@ const PaymentMethod = ({ category, onRemove, onSelect, isSelected, data: { last4
 			<style jsx>{`
 				.PaymentMethod {
 					display: flex;
+					flex-grow: 1;
+					flex-basis: 48%;
+					max-width: 48%;
 					align-items: center;
 					border: 2px solid #232323;
 					border-radius: 5px;
 					cursor: pointer;
-					margin: 10px 0;
-					padding: 10px 15px;
+					margin: 10px 5px;
+					padding: 8px 12px;
 					background: ${isSelected ? '#000' : 'none'};
 				}
 
@@ -76,6 +79,12 @@ const PaymentMethod = ({ category, onRemove, onSelect, isSelected, data: { last4
 
 				.PaymentMethod:hover {
 					background: ${isSelected ? '#000' : '#232323'};
+				}
+
+				@media screen and (max-width: 800px){
+				.PaymentMethod {
+					max-width: 100%;
+					flex-basis: 90%;
 				}
 			`}</style>
 		</div>

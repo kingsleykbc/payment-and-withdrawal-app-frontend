@@ -3,15 +3,27 @@ import Layout from '../components/Layout';
 import Payment from '../components/ProjectUI/Payment';
 import { AuthContext } from '../contexts/AuthContext';
 import Spacing from '../components/UI/Spacing';
+import { createOrder } from '../utils/apiCalls/orders';
 
 const payment = ({ secretKey, publicKey }) => {
 	const authContext = useContext(AuthContext);
 	const [payment, setPayment] = useState(null);
 
+	/**
+	 * HANDLE PAYMENT
+	 */
+	const handlePayment = async payment => {
+		const order = await createOrder(payment);
+		setPayment(order);
+	};
+
+	// ===================================================================================================================
+	//  UI
+	// ===================================================================================================================
 	return (
 		<Layout>
 			{authContext.isAuthenticated ? (
-				<Payment onPay={data => setPayment(data)} authContext={authContext} amount={3000} keys={{ secretKey, publicKey }} />
+				<Payment onPay={handlePayment} authContext={authContext} amount={3000} keys={{ secretKey, publicKey }} />
 			) : (
 				<>
 					<h1>Welcome to the site</h1>

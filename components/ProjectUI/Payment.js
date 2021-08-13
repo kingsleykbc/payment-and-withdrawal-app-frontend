@@ -25,18 +25,6 @@ const Payment = ({
 		<div className='Payment'>
 			<h2>Pay ₦{amount}</h2>
 
-			{/* PAY WITH NEW DETAILS (PAYSTACK) */}
-			<NewPaystackPayment
-				amount={amount}
-				email={email}
-				onPay={onPay}
-				onError={onError}
-				hasPreviousPaymentMethods={paymentMethods.length > 0}
-				keys={keys}
-				refreshUserData={refreshUserData}
-				snackbarRef={snackbarRef}
-			/>
-
 			{/* PAY WITH PREVIOUS/SAVED PAYMENT DETAILS */}
 			{paymentMethods.length > 0 && (
 				<PreviousPayments
@@ -50,6 +38,18 @@ const Payment = ({
 					snackbarRef={snackbarRef}
 				/>
 			)}
+
+			{/* PAY WITH NEW DETAILS (PAYSTACK) */}
+			<NewPaystackPayment
+				amount={amount}
+				email={email}
+				onPay={onPay}
+				onError={onError}
+				hasPreviousPaymentMethods={paymentMethods.length > 0}
+				keys={keys}
+				refreshUserData={refreshUserData}
+				snackbarRef={snackbarRef}
+			/>
 
 			<AreYouSureBox ref={areYouSureRef} />
 			<Snackbar ref={snackbarRef} />

@@ -8,7 +8,7 @@ import { protectedAPICall } from './auth';
  * @param {Number} amount - Amount being charged
  * @param {String} paymentMethodID - Payment method ID
  * @returns {{
- * 	type: "Paystack charge"|"Paystack transfer",
+ * 	method: "Paystack charge"|"Paystack transfer",
  * 	data: Object,
  * 	amount: {amount, billerFee, amountForBillerCharge, amountAfterFees, totalFee, appFee }
  * }}

@@ -12,7 +12,6 @@ const PreviousPayments = ({ charge, paymentMethods, onPay, onError, refreshUserD
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-	const [paymentDets, setPaymentDets] = useState(null);
 
 	/**
 	 * LIST PAYMENT METHODS
@@ -67,19 +66,34 @@ const PreviousPayments = ({ charge, paymentMethods, onPay, onError, refreshUserD
 	// ===================================================================================================================
 	return (
 		<div className='PreviousPayments'>
-			<PageDivider vPadding='40px'>OR</PageDivider>
 			<div className='section previousPayments'>
 				<Par color='#d1d1d1'>Pay with previous payments</Par>
-				<Spacing padding='20px 0'>{paymentMethodsWidgets}</Spacing>
+				<Spacing padding='15px 0'>
+					<div className='paymentsList'>{paymentMethodsWidgets}</div>
+				</Spacing>
 			</div>
 			{selectedPaymentMethod && (
-				<button isLoading={isLoading} onClick={makePayment} disabled={isLoading}>
-					{!isLoading ? 'PAY' : 'Paying...'}
-				</button>
+				<Spacing padding='0 0 15px 0'>
+					<button isLoading={isLoading} onClick={makePayment} disabled={isLoading}>
+						{!isLoading ? 'PAY' : 'Paying...'}
+					</button>
+				</Spacing>
 			)}
 			{/*  <Button isLoading={isLoading} onClick={makePayment}> PAY </Button> */}
 			{error && <h5>{error}</h5>}
-			{paymentDets && <pre>{JSON.stringify(paymentDets, null, 2)}</pre>}
+
+			<PageDivider>OR</PageDivider>
+
+			{/* STYLE */}
+			<style jsx>{`
+				.PreviousPayments {
+					margin-top: 15px;
+				}
+				.paymentsList {
+					display: flex;
+					flex-wrap: wrap;
+				}
+			`}</style>
 		</div>
 	);
 };
