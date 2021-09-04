@@ -10,3 +10,12 @@ export const PAYMENT_CONFIG = {
 	ADDITIONAL_FEE: 100,
 	MIN_AMOUNT_FOR_ADDITIONAL_FEE: 1000
 };
+
+/**
+ * MAP OF COUNTRY CODE TO CURRENCY, CURRENCY SYMBOL AND COUNTRY
+ */
+export const COUNTRIES_MAP = {
+	Nigeria: { code: 'NG', currency: 'NGN', currencySymbol: '₦' },
+	Canada: { code: 'CA', currency: 'CAD', currencySymbol: '$' },
+	'United States': { code: 'US', currency: 'USD', currencySymbol: '$' }
+};

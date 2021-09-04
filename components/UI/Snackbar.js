@@ -69,7 +69,7 @@ class Snackbar extends PureComponent {
         <div className="message"> {this.message} </div>
         
 
-        { /* STYLE ======================================================================================= */}
+        { /* STYLE */}
         <style jsx>{`
           .Snackbar {
             visibility: hidden;

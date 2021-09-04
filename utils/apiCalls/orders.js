@@ -2,6 +2,18 @@ import { DOMAIN, HEADER_TOKEN_CONFIG } from '../config';
 import { protectedAPICall } from './auth';
 
 /**
+ * LIST ORDERS
+ *
+ * Get the order details
+ * @param {{token, refreshToken}} tokens - Token pair
+ * @returns {{ amountDue, orders: [{_id, hasWithdrawn, price, paymentID, customerID, createdAt}] }} - Order
+ */
+export const getOrders = async tokens => {
+	const data = await protectedAPICall({ method: 'get', url: `${DOMAIN}/orders/details` }, tokens);
+	return data;
+};
+
+/**
  * CREATE ORDER
  *
  * This endpoint creates a new order.

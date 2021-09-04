@@ -6,6 +6,7 @@ import { getError } from '../functions';
 
 /**
  * REGISTER USER
+ *
  * This endpoint registers the user, gets, and stores the user's token.
  */
 export const registerUser = async data => {
@@ -42,6 +43,7 @@ export const loginUser = async (data, nextPage = '/', navAfterLogin = true) => {
 
 /**
  * LOGOUT
+ *
  * This request redirects the user back to the login screen (if not disabled), sends the logout request to delete
  * the token from the server and removes the access and refresh tokens.
  */
@@ -55,19 +57,45 @@ export const logout = rdir => {
 };
 
 /**
+ * SEND AN OTP EMAIL
+ *
+ * @returns {{message, token}} - Hashed token with code
+ */
+export const sendOTPEmailVerification = async () => {
+	const data = await protectedAPICall({ method: 'post', url: `${DOMAIN}/auth/otp/verification/email` });
+	return data;
+};
+
+/**
+ * VALIDATE OTP EMAIL
+ *
+ * @param {String} token - Hashed token with code
+ * @param {String} otp - 6-digit code
+ * @returns {{message: 'Email successfully Verified!'}} - Confirmation message
+ */
+export const validateOTPEmailVerification = async (token, otp) => {
+	const data = await protectedAPICall({ method: 'post', url: `${DOMAIN}/auth/otp/verification/email/validate`, data: { token, otp } });
+	return data;
+};
+
+// ===================================================================================================================
+// 	PROTECTED API CALLS
+// ===================================================================================================================
+/**
  * MAKE PROTECTED API CALLS
  * This is a wrapper for protected API calls. It sends the request with the access token, checks if the access
  * token is expired and requests a refresh token if so. It also sends appropriate error messages and logs out
  * if the refresh token is expired.
- * @param reqObj : The axios refresh object => {method, url, data}
- * @param tokens : The token (optional) especially if it was called before rendering the DOM
- * @param redirectOnFail : If user should redirect back to the login screen upon detecting invalid refresh token
+ *
+ * @param {{method, url, data}} reqObj - The axios refresh object => {method, url, data}
+ * @param {{accessToken, refreshToken}} tokens - The token (optional) especially if it was called before rendering the DOM
+ * @param {Boolean} redirectOnFail - If user should redirect back to the login screen upon detecting invalid refresh token
+ * @returns {Object} - Data of request
  */
 export const protectedAPICall = async (reqObj, tokens = {}, redirectOnFail) => {
-
 	// Verify the tokens
 	const token = tokens.token || cookie.get('token');
-	const refreshToken = tokens.token || cookie.get('refreshToken');
+	const refreshToken = tokens.refreshToken || cookie.get('refreshToken');
 
 	if (!token || !refreshToken) {
 		logout(redirectOnFail);

@@ -46,7 +46,7 @@ class AuthContextProvider extends Component {
 		const { isAuthenticated } = this.state;
 		if (!isAuthenticated) return;
 		const userData = await updateUser(data);
-		this.setState({ isSellerAuthenticated: userData.isBusinessAccount, userData });
+		this.setState({ userData });
 		return userData;
 	};
 

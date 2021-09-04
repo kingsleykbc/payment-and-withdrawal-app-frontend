@@ -1,5 +1,20 @@
-import { DOMAIN, HEADER_TOKEN_CONFIG } from '../config';
+import { DOMAIN } from '../config';
 import { protectedAPICall } from './auth';
+
+/**
+ * GET PAYMENT DETAILS
+ *
+ * @param {String} key - keyType value
+ * @param {"paymentID"|"receiptNo"} keyType - keyType to find the payment
+ * @returns
+ */
+export const getPaymentDetails = async (key, keyType = 'paymentID') => {
+	const data = await protectedAPICall({
+		method: 'get',
+		url: `${DOMAIN}/payments/details/${key}?keyType=${keyType}`
+	});
+	return data;
+};
 
 /**
  * GET PAYMENT METHODS

@@ -1,13 +1,19 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Head from 'next/head';
 import { useCookie } from 'react-use';
 import { AuthContext } from '../contexts/AuthContext';
+import OTP from './UI/OTP';
+import VerifyAccountPage from './VerifyAccountPage';
 
 const Layout = ({ children }) => {
-	const { isAuthenticated, userData } = useContext(AuthContext);
+	const authContext = useContext(AuthContext);
+	const { isAuthenticated, userData } = authContext;
 
+	// ===================================================================================================================
+	//  UI
+	// ===================================================================================================================
 	return (
 		<div className='Layout'>
 			<Head>
@@ -15,7 +21,7 @@ const Layout = ({ children }) => {
 			</Head>
 
 			<Navbar />
-			<main>{children}</main>
+			<main>{isAuthenticated && !userData.isVerified ? <VerifyAccountPage authContext={authContext} /> : children}</main>
 			<Footer />
 
 			<div id='portal'></div>

@@ -4,13 +4,20 @@ import { PAYMENT_CONFIG } from './config';
  * GET ERROR MESSAGE AND OTHER DETAILS FROM RESPONSE
  *
  * @param {Error} e - Error object
- * @param {String} defaultMessage - Default message to display
+ * @param {{defaultMessage, useAppErrorMessage}} options - Default message to display
  * @returns {{message, appErrorMessage, type, code, fields}} - Error details
  */
-export const getError = (e, defaultMessage) => {
+export const getError = (e, options = {}) => {
+	const { defaultMessage, useAppErrorMessage } = options;
+
 	// Setup default
 	const error = {
-		message: e.message === 'Network Error' ? 'Network error, please try again.' : defaultMessage || 'Error getting data',
+		message:
+			e.message === 'Network Error'
+				? 'Network error, please try again.'
+				: useAppErrorMessage
+				? e.message
+				: defaultMessage || 'Application error',
 		appErrorMessage: e.message,
 		type: 'Application error',
 		code: 500,
@@ -25,6 +32,9 @@ export const getError = (e, defaultMessage) => {
 		error.code = code;
 		if (errors) error.fields = errors;
 	}
+
+	// Catch thrown F.E error
+	if (e.errMessage) error.message = e.errMessage;
 
 	// Return error
 	// console.log({ error: e.message, response: error }); // (Comment out when not in use)
@@ -122,3 +132,35 @@ export const getPaystackTransactionFee = (type, amount) => {
 	}
 	return fee;
 };
+
+/**
+ * PRINT a TARGET ELEMENT
+ *
+ * @param {String} id - Element #id
+ * @returns {true}
+ */
+export const printElement = id => {
+	const myWindow = window.open('', 'PRINT', 'height=400,width=600');
+	myWindow.document.write('<html><head><title>' + document.title + '</title>');
+	myWindow.document.write('</head><body >');
+	myWindow.document.write('<h1>' + document.title + '</h1>');
+	myWindow.document.write(document.getElementById(id).innerHTML);
+	myWindow.document.write('</body></html>');
+
+	myWindow.document.close(); // necessary for IE >= 10
+	myWindow.focus(); // necessary for IE >= 10*/
+
+	myWindow.print();
+
+	return true;
+};
+
+/**
+ * SHOW PARTIAL EMAIL/PHONE NUMBER VALUE WITH *
+ *
+ * @param {String} value - The field to hide
+ * @param {'email'|'phoneNumber'} type - Type of field
+ * @returns {String} Partial value with *
+ */
+export const showPartial = (value, type) =>
+	type === 'email' ? value.replace(/(\w{3})[\w.-]+@([\w.]+\w)/, '$1****@$2') : value.replace(value.substring(4, 10), '****');
