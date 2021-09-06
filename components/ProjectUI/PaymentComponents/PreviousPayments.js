@@ -6,8 +6,20 @@ import { Par } from '../../UI/TextComponents';
 import Spacing from '../../UI/Spacing';
 import { chargePreviousPayment } from '../../../utils/apiCalls/payments';
 import { getError } from '../../../utils/functions';
+import Button from '../../UI/Button';
 
-const PreviousPayments = ({ charge, paymentMethods, onPay, onError, refreshUserData, areYouSureRef, amount, snackbarRef }) => {
+const PreviousPayments = ({
+	authContext: {
+		userData: { paymentMethods },
+		refreshUserData
+	},
+	charge,
+	onPay,
+	onError,
+	areYouSureRef,
+	amount,
+	snackbarRef
+}) => {
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -17,16 +29,11 @@ const PreviousPayments = ({ charge, paymentMethods, onPay, onError, refreshUserD
 	 */
 	const paymentMethodsWidgets = paymentMethods.map(({ _id, category, details }, ind) => {
 		const isSelected = _id === (selectedPaymentMethod && selectedPaymentMethod._id);
-		const removeFunc = () => {
-			areYouSureRef.current.openAreYouSureBox({
-				message: 'You are about to delete this payment method',
-				onYes: async () => {
-					await deletePaymentMethod(_id);
-					await refreshUserData();
-					if (isSelected) setSelectedPaymentMethod(null);
-					snackbarRef.current.openSnackbar({ type: 'error', message: 'Payment method removed' });
-				}
-			});
+		const removeFunc = async () => {
+			await deletePaymentMethod(_id);
+			await refreshUserData();
+			if (isSelected) setSelectedPaymentMethod(null);
+			snackbarRef.current.openSnackbar({ type: 'error', message: 'Payment method removed' });
 		};
 		const selectFunc = () => setSelectedPaymentMethod(paymentMethods[ind]);
 
@@ -73,15 +80,12 @@ const PreviousPayments = ({ charge, paymentMethods, onPay, onError, refreshUserD
 			</div>
 			{selectedPaymentMethod && (
 				<Spacing padding='0 0 15px 0'>
-					<button isLoading={isLoading} onClick={makePayment} disabled={isLoading}>
-						{!isLoading ? 'PAY' : 'Paying...'}
-					</button>
+					<Button filled isLoading={isLoading} onClick={makePayment}>
+						Pay
+					</Button>
 				</Spacing>
 			)}
-			{/*  <Button isLoading={isLoading} onClick={makePayment}> PAY </Button> */}
 			{error && <h5>{error}</h5>}
-
-			<PageDivider>OR</PageDivider>
 
 			{/* STYLE */}
 			<style jsx>{`

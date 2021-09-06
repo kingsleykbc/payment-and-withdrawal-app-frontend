@@ -62,7 +62,7 @@ const { RATE, WITHDRAWAL_RATE, ADDITIONAL_FEE, MIN_AMOUNT_FOR_ADDITIONAL_FEE } =
  * @returns {{amount, billerFee, amountForBillerCharge, amountAfterFees, totalFee, appFee }}
  */
 export const getTransactionFee = (amount, type, provider, options = {}) => {
-	const totalFee = getTotalTransactionFee(type, amount);
+	let totalFee = getTotalTransactionFee(type, amount);
 	let billerFee;
 	if (options.inKobo) amount = amount * 100;
 

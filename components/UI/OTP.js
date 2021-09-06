@@ -6,38 +6,70 @@ import AuthenticateField from './OTPComponents/AuthenticateField';
 import Snackbar from './Snackbar';
 
 class OTP extends Component {
-	onVerify;
-	onAuthenticate;
+	onValidate;
 	snackbarRef = React.createRef();
 
-	// STATE
+	/**
+	 * STATE
+	 */
 	state = { show: false, view: '' };
 
-	// SET VIEW
+	/**
+	 * UPDATE VIEW
+	 * @param {'AuthenticateField' | 'AddOrUpdateFieldValue' } view
+	 */
 	setView = view => this.setState({ view });
 
-	// TOGGLE LB
+	/**
+	 * TOGGLE LB
+	 */
 	toggle = () => this.setState({ show: !this.state.show });
 
-	// SEND OTP
-	sendOTP = async ({ onVerify, onAuthenticate }) => {
-		this.onVerify = onVerify;
-		this.onAuthenticate = onAuthenticate;
+	/**
+	 * OPEN THE OTP LB AND SEND THE CODE
+	 *
+	 * @param {{onValidate}} config
+	 */
+	sendOTP = async (config = {}) => {
+		const { onValidate } = config;
+		this.onValidate = onValidate;
 
 		const {
-			authContext: { userData },
-			field
+			field,
+			authContext: { userData }
 		} = this.props;
 		this.setState({ view: userData[field] ? 'AuthenticateField' : 'AddOrUpdateFieldValue' });
 		this.toggle();
 	};
 
-	// HANDLE CODE VALIDATION
-	handleValidateOTP = async () => {
-		// Handle on verify and on auth here (with the conditions and everything)
+	/**
+	 * SHOW SUCCESS MESSAGE
+	 */
+	showSnackbarMessage = () => {
+		const { type, field, snackbarRef } = this.props;
 
-		this.toggle();
-		this.snackbarRef.current.openSnackbar({ message: 'Handled successfully', type: 'success' });
+		const message =
+			type === 'verification' ? `${field === 'email' ? 'Email' : 'Phone number'} successfully verified` : 'Authentication successful';
+
+		// Use external REF (if exists)
+		const ref = snackbarRef || this.snackbarRef;
+		ref.current.openSnackbar({ message, type: 'success' });
+	};
+
+	/**
+	 * ON SUCCESSFUL CODE VALIDATION
+	 */
+	handleValidateOTP = async () => {
+		const {
+			field,
+			unmountedAfterUse,
+			authContext: { userData }
+		} = this.props;
+
+		this.showSnackbarMessage();
+		if (!unmountedAfterUse) this.toggle();
+
+		if (this.onValidate) this.onValidate({ [field]: userData[field] });
 	};
 
 	// ===================================================================================================================
@@ -82,7 +114,9 @@ OTP.propTypes = {
 	field: PropTypes.oneOf(['email', 'phoneNumber']).isRequired,
 	authContext: PropTypes.object.isRequired,
 	allowFieldChange: PropTypes.bool,
+	unmountedAfterUse: PropTypes.bool,
 	title: PropTypes.string,
 	subTitle: PropTypes.string,
-	trailingMessage: PropTypes.any
+	trailingMessage: PropTypes.any,
+	snackbarRef: PropTypes.any
 };

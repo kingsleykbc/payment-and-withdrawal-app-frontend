@@ -5,7 +5,17 @@ import { Row } from '../UI/Flex';
 import Spacing from '../UI/Spacing';
 import { Text } from '../UI/TextComponents';
 
-const Price = ({ price = '0', currency = 'NGN', showSymbol, showCurrency, salePrice, formerPriceProps, freeIfZero, ...textProps }) => {
+const Price = ({
+	price = '0',
+	currency = 'NGN',
+	showSymbol,
+	showCurrency,
+	salePrice,
+	formerPriceProps,
+	inline,
+	freeIfZero,
+	...textProps
+}) => {
 	//
 	// FORMAT VALUE (IF PRICE WAS PASSED WITH SYMBOL)
 	if (['₦', '$'].indexOf(price[0]) !== -1) {
@@ -28,6 +38,10 @@ const Price = ({ price = '0', currency = 'NGN', showSymbol, showCurrency, salePr
 	// SETUP NUMBER FORMATTER
 	const DisplayPrice = ({ p }) => <NumberFormat displayType='text' value={p} prefix={symbol} thousandSeparator />;
 
+	// ===================================================================================================================
+	//  UI
+	// ===================================================================================================================
+
 	// RETURN SALE PRICE
 	if (salePrice) {
 		return (
@@ -44,9 +58,22 @@ const Price = ({ price = '0', currency = 'NGN', showSymbol, showCurrency, salePr
 		);
 	}
 
-	// ===================================================================================================================
-	//  UI
-	// ===================================================================================================================
+	//RETURN PRICE (INLINE)
+	if (inline)
+		return (
+			<span>
+				<DisplayPrice p={price} />
+				
+				{/* STYLE */}
+				<style jsx>{`
+					span, span :global(span) {
+						vertical-align: unset;
+					}
+				`}</style>
+			</span>
+		);
+
+	// RETURN PRICE
 	return (
 		<Text {...textProps}>
 			<DisplayPrice p={price} />

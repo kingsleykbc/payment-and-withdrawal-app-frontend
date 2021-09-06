@@ -1,15 +1,17 @@
 import React, { useRef } from 'react';
 import AreYouSureBox from '../UI/AreYouSureBox';
+import PageDivider from '../UI/PageDivider';
+import Price from '../UI/Price';
 import Snackbar from '../UI/Snackbar';
 import NewPaystackPayment from './PaymentComponents/NewPaystackPayment';
 import PreviousPayments from './PaymentComponents/PreviousPayments';
 
 const Payment = ({
-	charge = true,
 	keys = {},
 	amount,
 	onPay,
 	onError,
+	authContext,
 	authContext: {
 		refreshUserData,
 		userData: { email, paymentMethods }
@@ -23,20 +25,24 @@ const Payment = ({
 	// ===================================================================================================================
 	return (
 		<div className='Payment'>
-			<h2>Pay ₦{amount}</h2>
+			<h2>
+				Pay <Price showSymbol price={amount} inline />
+			</h2>
 
 			{/* PAY WITH PREVIOUS/SAVED PAYMENT DETAILS */}
 			{paymentMethods.length > 0 && (
-				<PreviousPayments
-					amount={amount}
-					charge={charge}
-					onPay={onPay}
-					onError={onError}
-					paymentMethods={paymentMethods}
-					refreshUserData={refreshUserData}
-					areYouSureRef={areYouSureRef}
-					snackbarRef={snackbarRef}
-				/>
+				<>
+					<PreviousPayments
+						amount={amount}
+						charge={true}
+						onPay={onPay}
+						onError={onError}
+						authContext={authContext}
+						areYouSureRef={areYouSureRef}
+						snackbarRef={snackbarRef}
+					/>
+					<PageDivider>OR</PageDivider>
+				</>
 			)}
 
 			{/* PAY WITH NEW DETAILS (PAYSTACK) */}

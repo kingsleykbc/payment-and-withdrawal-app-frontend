@@ -4,7 +4,7 @@ import Button from '../Button';
 import Spacing from '../Spacing';
 import { Text } from '../TextComponents';
 
-const AddOrUpdateFieldValue = ({ setView, field, authContext: { userData, updateUser } }) => {
+const AddOrUpdateFieldValue = ({ setView, field, authContext: { updateUser } }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [err, setErr] = useState('');
 	const fieldValueRef = useRef();

@@ -25,9 +25,11 @@ const Navbar = () => {
 							<a>Withdrawal</a>
 						</Link>
 
-						<div className='a' onClick={() => logout(true)}>
-							Logout
-						</div>
+						<Link href='/profile'>
+							<a>Profile</a>
+						</Link>
+
+						
 					</>
 				) : (
 					<>

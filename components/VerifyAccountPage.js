@@ -2,14 +2,14 @@ import React, { useRef } from 'react';
 import OTP from './UI/OTP';
 import Spacing from './UI/Spacing';
 
-const VerifyAccountPage = ({ authContext }) => {
+const VerifyAccountPage = ({ authContext, snackbarRef }) => {
 	const otpREF = useRef(null);
 
 	/**
 	 * HANDLE OTP SENDING
 	 */
 	const verifyAccount = () => {
-		otpREF.current.sendOTP({ onVerify: () => alert('VERIFIED O!') });
+		otpREF.current.sendOTP({ onValidate: data => console.log('COmpleted', data) });
 	};
 
 	// ===================================================================================================================
@@ -21,7 +21,15 @@ const VerifyAccountPage = ({ authContext }) => {
 			<Spacing padding='10px' />
 			<button onClick={verifyAccount}>Verify Account</button>
 
-			<OTP allowFieldChange ref={otpREF} authContext={authContext} field='email' type='verification' />
+			<OTP
+				snackbarRef={snackbarRef}
+				allowFieldChange
+				ref={otpREF}
+				authContext={authContext}
+				field='email'
+				type='verification'
+				unmountedAfterUse
+			/>
 
 			{/* STYLE */}
 			<style jsx>{`

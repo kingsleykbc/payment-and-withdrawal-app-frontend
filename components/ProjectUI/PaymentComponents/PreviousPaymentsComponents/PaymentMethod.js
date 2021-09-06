@@ -5,8 +5,9 @@ import { Text } from '../../../UI/TextComponents';
 import IcDelete from 'react-icons/lib/md/delete';
 import { CARD_ICONS } from '../../../../utils/icons';
 import IcBank from 'react-icons/lib/md/account-balance';
+import WithAreYouSureBox from '../../../UI/WithAreYouSureBox';
 
-const PaymentMethod = ({ category, onRemove, onSelect, isSelected, data: { last4, card_type } }) => {
+const PaymentMethod = ({ charge, type = 'payment', category, onRemove, onSelect, isSelected, data: { last4, card_type, bank_name } }) => {
 	let icon;
 
 	switch (category) {
@@ -24,13 +25,14 @@ const PaymentMethod = ({ category, onRemove, onSelect, isSelected, data: { last4
 	return (
 		<div className='PaymentMethod'>
 			{/* DETAILS */}
-			<div className='content' onClick={onSelect}>
+			<div className='content' onClick={charge ? onSelect : () => {}}>
 				<div className='icon'>{icon}</div>
 
 				<Spacing padding='0 15px'>
 					<Text isBold color='#fff'>
 						**** {last4}
 					</Text>
+					{category === 'bank' && <Text isLightText>{` - ${bank_name}`}</Text>}
 					<br />
 					<Text isSmallText color='#cfcfcf'>
 						{category}
@@ -40,7 +42,9 @@ const PaymentMethod = ({ category, onRemove, onSelect, isSelected, data: { last4
 
 			{/* DELETE BUTTON */}
 			<div className='delIcon'>
-				<ClickableIcon onClick={onRemove} color='#fff' icon={<IcDelete />} />
+				<WithAreYouSureBox onYes={onRemove} message={`You are about to delete this ${type} method`}>
+					<ClickableIcon color='#fff' icon={<IcDelete />} />
+				</WithAreYouSureBox>
 			</div>
 
 			{/* STYLE */}
@@ -78,7 +82,7 @@ const PaymentMethod = ({ category, onRemove, onSelect, isSelected, data: { last4
 				}
 
 				.PaymentMethod:hover {
-					background: ${isSelected ? '#000' : '#232323'};
+					background: ${!charge ? 'none' : isSelected ? '#000' : '#232323'};
 				}
 
 				@media screen and (max-width: 800px){

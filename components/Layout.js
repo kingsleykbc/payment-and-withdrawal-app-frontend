@@ -6,10 +6,12 @@ import { useCookie } from 'react-use';
 import { AuthContext } from '../contexts/AuthContext';
 import OTP from './UI/OTP';
 import VerifyAccountPage from './VerifyAccountPage';
+import Snackbar from './UI/Snackbar';
 
 const Layout = ({ children }) => {
 	const authContext = useContext(AuthContext);
 	const { isAuthenticated, userData } = authContext;
+	const snackbarRef = useRef();
 
 	// ===================================================================================================================
 	//  UI
@@ -21,8 +23,12 @@ const Layout = ({ children }) => {
 			</Head>
 
 			<Navbar />
-			<main>{isAuthenticated && !userData.isVerified ? <VerifyAccountPage authContext={authContext} /> : children}</main>
+			<main>
+				{isAuthenticated && !userData.isVerified ? <VerifyAccountPage snackbarRef={snackbarRef} authContext={authContext} /> : children}
+			</main>
 			<Footer />
+
+			<Snackbar ref={snackbarRef} />
 
 			<div id='portal'></div>
 

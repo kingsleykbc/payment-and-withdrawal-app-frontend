@@ -1,0 +1,11 @@
+- TextComponents
+  - Added verticalAlign props
+
+- Price
+  - (import the country config)
+
+- TextButton
+  - Added stylable props
+  
+
+- Clckable (new)

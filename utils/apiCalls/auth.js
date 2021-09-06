@@ -78,6 +78,28 @@ export const validateOTPEmailVerification = async (token, otp) => {
 	return data;
 };
 
+/**
+ * SEND AN OTP WHATSAPP MESSAGE
+ *
+ * @returns {{message, token}} - Hashed token with code
+ */
+export const sendOTPWhatsAppVerification = async () => {
+	const data = await protectedAPICall({ method: 'post', url: `${DOMAIN}/auth/otp/verification/whatsapp` });
+	return data;
+};
+
+/**
+ * VALIDATE OTP WHATSAPP
+ *
+ * @param {String} token - Hashed token with code
+ * @param {String} otp - 6-digit code
+ * @returns {{message: 'Phone number successfully Verified!'}} - Confirmation message
+ */
+export const validateOTPWhatsAppVerification = async (token, otp) => {
+	const data = await protectedAPICall({ method: 'post', url: `${DOMAIN}/auth/otp/verification/whatsapp/validate`, data: { token, otp } });
+	return data;
+};
+
 // ===================================================================================================================
 // 	PROTECTED API CALLS
 // ===================================================================================================================

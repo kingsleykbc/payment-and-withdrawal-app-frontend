@@ -20,6 +20,7 @@ export const Text = ({
 	lineHeight,
 	alignment,
 	isLightText,
+	verticalAlign,
 	isSmallText,
 	isBold,
 	decoration
@@ -40,7 +41,7 @@ export const Text = ({
 			{/* STYLE */}
 			<style jsx>{`
 				.Text {
-					vertical-align: middle;
+					vertical-align: ${verticalAlign || `middle`};
 					color: ${color};
 					font-size: ${fontSize};
 					word-wrap: ${wrap ? 'break-word' : 'normal'};

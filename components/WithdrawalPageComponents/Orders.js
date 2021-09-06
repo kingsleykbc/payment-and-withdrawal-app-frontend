@@ -1,23 +1,30 @@
 import React from 'react';
+import Withdraw from '../ProjectUI/Withdraw';
+import WithdrawLightboxButton from '../ProjectUI/WithdrawLightboxButton';
 import Container from '../UI/Container';
 import { Row } from '../UI/Flex';
 import ListView from '../UI/ListView';
 import Price from '../UI/Price';
+import Spacing from '../UI/Spacing';
 import Order from './OrdersComponents/Order';
 
-const Orders = ({ data: { amountDue, orders } }) => {
+const Orders = ({ authContext, data: { amountDue, orders } }) => {
 	// ===================================================================================================================
 	//  UI
 	// ===================================================================================================================
 	return (
 		<div className='Orders'>
+			<Spacing padding='30px 0'>
+				<Withdraw amount={amountDue} authContext={authContext} />
+			</Spacing>
+
 			<Container hasBorder borderDirections='b' paddingVertical='20px' marginBottom='20px' borderColor='#000'>
 				<Row justify='space-between'>
 					<div>
 						<span>TOTAL: </span>
 						<Price showSymbol price={amountDue} />
 					</div>
-					<button>Withdraw</button>
+					<WithdrawLightboxButton amount={amountDue} authContext={authContext} />
 				</Row>
 			</Container>
 

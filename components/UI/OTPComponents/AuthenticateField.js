@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { sendOTPEmailVerification, validateOTPEmailVerification } from '../../../utils/apiCalls/auth';
+import {
+	sendOTPEmailVerification,
+	sendOTPWhatsAppVerification,
+	validateOTPEmailVerification,
+	validateOTPWhatsAppVerification
+} from '../../../utils/apiCalls/auth';
 import { getError, showPartial } from '../../../utils/functions';
 import Button from '../Button';
 import { Row } from '../Flex';
@@ -13,9 +18,10 @@ const AuthenticateField = ({
 	allowFieldChange,
 	onValidateOTP,
 	title,
+	unmountedAfterUse,
 	field,
 	type,
-	authContext: { userData, getUserData }
+	authContext: { userData, refreshUserData }
 }) => {
 	const [resendTimer, setResendTimer] = useState(0);
 	const [code, setCode] = useState('');
@@ -23,12 +29,16 @@ const AuthenticateField = ({
 	const [err, setErr] = useState('');
 	const [token, setToken] = useState(null);
 
-	// SEND THE FIRST OTP
+	/**
+	 * SEND THE FIRST OTP
+	 */
 	useEffect(() => {
 		sendOTP();
 	}, []);
 
-	// RESEND TIMER
+	/**
+	 * RESEND TIMER
+	 */
 	useEffect(() => {
 		if (resendTimer <= 0) return;
 
@@ -39,13 +49,15 @@ const AuthenticateField = ({
 		return () => clearTimeout(iVal);
 	}, [resendTimer]);
 
-	// SEND OTP
+	/**
+	 * SEND OTP
+	 */
 	const sendOTP = async () => {
 		setErr('');
 		setCode('');
 
 		try {
-			const { token: t } = await sendOTPEmailVerification();
+			const { token: t } = type === 'email' ? await sendOTPEmailVerification() : await sendOTPWhatsAppVerification();
 			setToken(t);
 			setResendTimer(5);
 		} catch (e) {
@@ -53,21 +65,30 @@ const AuthenticateField = ({
 		}
 	};
 
-	// VALIDATE THE CODE
+	/**
+	 * VALIDATE THE CODE
+	 */
 	const validateOTP = async () => {
 		setIsValidating(true);
 		setErr('');
 
 		try {
-			await validateOTPEmailVerification(token, code);
-			await getUserData();
+			if (type === 'email') await validateOTPEmailVerification(token, code);
+			else await validateOTPWhatsAppVerification(token, code);
+
+			await refreshUserData();
 			onValidateOTP();
 		} catch (e) {
 			setErr(getError(e).message);
+			setIsValidating(false);
 		}
-		setIsValidating(false);
+
+		if (!unmountedAfterUse) setIsValidating(false);
 	};
 
+	/**
+	 * SETUP TEXT
+	 */
 	const partial = field === 'email' ? showPartial(userData.email, 'email') : showPartial(userData.phoneNumber, 'phoneNumber');
 	subTitle = subTitle ? subTitle.replace('{1}', partial) : `Please enter the OTP sent to ${partial}.`;
 	if (field === 'phoneNumber') field = 'phone number';
@@ -86,6 +107,13 @@ const AuthenticateField = ({
 				<Text isLightText isSmallText>
 					{subTitle}
 				</Text>
+				{field === 'email' && (
+					<div>
+						<Text isLightText isSmallText>
+							(Please also check your spam/junk folder)
+						</Text>
+					</div>
+				)}
 			</Spacing>
 
 			{/* FIELD */}
