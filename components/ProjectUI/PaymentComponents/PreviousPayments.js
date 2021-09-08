@@ -16,7 +16,6 @@ const PreviousPayments = ({
 	charge,
 	onPay,
 	onError,
-	areYouSureRef,
 	amount,
 	snackbarRef
 }) => {
@@ -58,7 +57,6 @@ const PreviousPayments = ({
 		try {
 			const payment = await chargePreviousPayment(amount, selectedPaymentMethod._id);
 			onPay(payment);
-			snackbarRef.current.openSnackbar({ type: 'success', message: 'Payment successful' });
 		} catch (e) {
 			const { message } = getError(e);
 			setError(message);
@@ -91,10 +89,6 @@ const PreviousPayments = ({
 			<style jsx>{`
 				.PreviousPayments {
 					margin-top: 15px;
-				}
-				.paymentsList {
-					display: flex;
-					flex-wrap: wrap;
 				}
 			`}</style>
 		</div>

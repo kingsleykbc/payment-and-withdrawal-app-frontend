@@ -24,7 +24,6 @@ const NewPaystackPayment = ({ snackbarRef, keys = {}, amount, onPay, onError, re
 		const { reference } = data;
 		setReference('REF_' + new Date().getTime());
 		onPay({ method: 'Paystack charge', data: { reference }, amount: getTransactionFee(amount, 'payment', 'paystack') });
-		snackbarRef.current.openSnackbar({ type: 'success', message: 'Payment successful' });
 		if (saveNewPayment) {
 			await savePaymentMethod('paystack-authorization', { reference });
 			refreshUserData();
@@ -36,13 +35,17 @@ const NewPaystackPayment = ({ snackbarRef, keys = {}, amount, onPay, onError, re
 	// ===================================================================================================================
 	return (
 		<div className='section'>
-			<Spacing padding='20px 0 30px 0'>
+			<Spacing padding='15px 0'>
 				<Par color='#d1d1d1'>Pay with {hasPreviousPaymentMethods && 'new'} debit/credit card, bank, or USSD</Par>
-				<Spacing padding="7px" />
-				<InputCheckButton label='Save details after payment' checked={saveNewPayment} onChange={() => setSaveNewPayment(!saveNewPayment)} />
+				<Spacing padding='15px 0 25px 0'>
+					<InputCheckButton
+						label='Save details after payment'
+						checked={saveNewPayment}
+						onChange={() => setSaveNewPayment(!saveNewPayment)}
+					/>
+				</Spacing>
+				<button onClick={() => initializePayment(onSuccess)}> PAY </button>
 			</Spacing>
-
-			<button onClick={() => initializePayment(onSuccess)}> PAY </button>
 		</div>
 	);
 };

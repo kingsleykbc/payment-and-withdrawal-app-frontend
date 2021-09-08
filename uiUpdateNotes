@@ -7,5 +7,12 @@
 - TextButton
   - Added stylable props
   
-
 - Clckable (new)
+
+- ResultPage
+  - defaultButtomButtonLabel prop
+  - Reduced margin between subtitle and button
+
+- FormFields
+  - background = background || theme.colors.backgroundColor; (replaced the #fff)
+ - margin = margin || '0 0 15px 0'; (replaced 0 0 20px 0)

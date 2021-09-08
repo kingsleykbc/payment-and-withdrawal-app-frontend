@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
+	sendOTPEmailAuthentication,
 	sendOTPEmailVerification,
+	sendOTPWhatsAppAuthentication,
 	sendOTPWhatsAppVerification,
+	validateOTPEmailAuthentication,
 	validateOTPEmailVerification,
+	validateOTPWhatsAppAuthentication,
 	validateOTPWhatsAppVerification
 } from '../../../utils/apiCalls/auth';
 import { getError, showPartial } from '../../../utils/functions';
@@ -57,8 +61,13 @@ const AuthenticateField = ({
 		setCode('');
 
 		try {
-			const { token: t } = type === 'email' ? await sendOTPEmailVerification() : await sendOTPWhatsAppVerification();
-			setToken(t);
+			let data;
+			if (type === 'verification') {
+				data = field === 'email' ? await sendOTPEmailVerification() : await sendOTPWhatsAppVerification();
+			} else {
+				data = field === 'email' ? await sendOTPEmailAuthentication() : await sendOTPWhatsAppAuthentication();
+			}
+			setToken(data.token);
 			setResendTimer(5);
 		} catch (e) {
 			setErr(getError(e).message);
@@ -73,8 +82,13 @@ const AuthenticateField = ({
 		setErr('');
 
 		try {
-			if (type === 'email') await validateOTPEmailVerification(token, code);
-			else await validateOTPWhatsAppVerification(token, code);
+			if (type === 'verification') {
+				if (field === 'email') await validateOTPEmailVerification(token, code);
+				else await validateOTPWhatsAppVerification(token, code);
+			} else {
+				if (field === 'email') await validateOTPEmailAuthentication(token, code);
+				else await validateOTPWhatsAppAuthentication(token, code);
+			}
 
 			await refreshUserData();
 			onValidateOTP();

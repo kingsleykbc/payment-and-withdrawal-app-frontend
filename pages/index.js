@@ -4,6 +4,7 @@ import Payment from '../components/ProjectUI/Payment';
 import { AuthContext } from '../contexts/AuthContext';
 import Spacing from '../components/UI/Spacing';
 import { createOrder } from '../utils/apiCalls/orders';
+import PaymentLightboxButton from '../components/ProjectUI/PaymentLightboxButton';
 
 const payment = ({ secretKey, publicKey }) => {
 	const authContext = useContext(AuthContext);
@@ -30,6 +31,7 @@ const payment = ({ secretKey, publicKey }) => {
 					<Spacing padding='20px 0'>Login to use the payment site.</Spacing>
 				</>
 			)}
+
 			{payment && <pre>{JSON.stringify(payment, null, 2)}</pre>}
 		</Layout>
 	);

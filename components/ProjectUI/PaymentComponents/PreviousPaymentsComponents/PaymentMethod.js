@@ -52,8 +52,6 @@ const PaymentMethod = ({ charge, type = 'payment', category, onRemove, onSelect,
 				.PaymentMethod {
 					display: flex;
 					flex-grow: 1;
-					flex-basis: 48%;
-					max-width: 48%;
 					align-items: center;
 					border: 2px solid #232323;
 					border-radius: 5px;

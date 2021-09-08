@@ -19,3 +19,4 @@ export const COUNTRIES_MAP = {
 	Canada: { code: 'CA', currency: 'CAD', currencySymbol: '$' },
 	'United States': { code: 'US', currency: 'USD', currencySymbol: '$' }
 };
+

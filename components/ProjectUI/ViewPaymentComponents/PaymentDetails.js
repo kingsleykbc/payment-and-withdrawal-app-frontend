@@ -16,7 +16,7 @@ const PaymentDetails = ({ type, amount, receiptNo, transactionFee, purpose, date
 			{/* AMOUNT AND RECEIPT NO */}
 			<Row justify='space-between'>
 				<Section title='Amount' titleFontWeight='bold'>
-					<Price fontSize='1.5rem' price='$300000' showCurrency />
+					<Price fontSize='1.5rem' price={amount} showCurrency />
 				</Section>
 
 				<Section title='Receipt No' titleFontWeight='bold'>

@@ -18,6 +18,7 @@ const PlaceholderBox = ({ width, height, children, fontSize, margin, padding }) 
       { /* STYLE */}
       <style jsx>{`
         .PlaceholderBox {
+          text-align: center;
           border: 2px dashed ${theme.colors.borderColor};
           border-radius: 5px;
           display: flex;

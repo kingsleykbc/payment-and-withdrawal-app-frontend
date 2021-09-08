@@ -10,138 +10,170 @@ import { Par } from './TextComponents';
 import CircularLoader from './CircularLoader';
 
 const ResultPage = ({
-  icon,
-  iconColor,
-  type,
-  bottomActions,
-  vPadding,
-  title,
-  subTitle,
-  footer,
-  showDefaultBottomButton,
-  onDefaultBottomButtonClick
+	icon,
+	iconColor,
+	type,
+	bottomActions,
+	vPadding,
+	title,
+	subTitle,
+	footer,
+	showDefaultBottomButton,
+	defaultBottomButtonLabel,
+	onDefaultBottomButtonClick
 }) => {
+	vPadding = vPadding || '10%';
 
-  vPadding = vPadding || "10%";
+	/**
+	 * ICON COLOE
+	 */
+	iconColor = iconColor
+		? iconColor
+		: type === 'success'
+		? theme.colors.successColor
+		: type === 'warning'
+		? theme.colors.warningColor
+		: type === 'error'
+		? theme.colors.dangerColor
+		: theme.colors.primaryColor;
 
-  /**
-   * ICON COLOE
-   */
-  iconColor = iconColor 
-    ? iconColor
-    : (type === "success") ? theme.colors.successColor
-    : (type === "warning") ? theme.colors.warningColor
-    : (type === "error") ? theme.colors.dangerColor
-    : theme.colors.primaryColor;
+	/**
+	 * ICON
+	 */
+	icon = icon ? (
+		icon
+	) : type === 'success' ? (
+		<div className='roundResultIcon'>
+			<IcSuccess />
+		</div>
+	) : type === 'warning' ? (
+		<div className='roundResultIcon'>
+			<IcWarning />
+		</div>
+	) : type === 'error' ? (
+		<div className='roundResultIcon'>
+			<IcDanger />
+		</div>
+	) : type === 'loading' ? (
+		<div className='loader'>
+			<CircularLoader color={iconColor} color2={theme.colors.textColor} />
+		</div>
+	) : (
+		<div className='roundResultIcon'>
+			<IcInfo />
+		</div>
+	);
 
+	/**
+	 *  BOTTOM ACTIONS
+	 */
+	bottomActions =
+		bottomActions && bottomActions.length > 0
+			? bottomActions
+			: type === 'error' && showDefaultBottomButton !== false
+			? [
+					<Button color={theme.colors.dangerColor} onClick={onDefaultBottomButtonClick}>
+						{defaultBottomButtonLabel || 'Retry'}
+					</Button>
+			  ]
+			: type === 'success' && showDefaultBottomButton !== false
+			? [
+					<Button color={theme.colors.successColor} onClick={onDefaultBottomButtonClick}>
+						{defaultBottomButtonLabel || 'Proceed'}
+					</Button>
+			  ]
+			: null;
 
-  /**
-   * ICON
-   */
-  icon = icon 
-    ? icon
-    : (type === "success") ? <div className="roundResultIcon"> <IcSuccess /> </div>
-    : (type === "warning") ? <div className="roundResultIcon"> <IcWarning/> </div>
-    : (type === "error") ? <div className="roundResultIcon"> <IcDanger /> </div>
-    : (type === "loading") ? <div className="loader"> <CircularLoader color={iconColor} color2={theme.colors.textColor} /> </div>
-    : <div className="roundResultIcon"> <IcInfo /> </div>;
-  
-  /**
-   *  BOTTOM ACTIONS
-   */
-  bottomActions = bottomActions && bottomActions.length > 0
-    ? bottomActions
-    : (type === "error" && showDefaultBottomButton !== false) ? 
-      [<Button color={theme.colors.dangerColor} onClick={onDefaultBottomButtonClick}>Retry</Button>]
-    : (type === "success" && showDefaultBottomButton !== false) ? 
-      [<Button color={theme.colors.successColor} onClick={onDefaultBottomButtonClick}>Proceed</Button>]
-    : null;
+	// =======================================================================
+	//  UI
+	// =======================================================================
+	return (
+		<div className='ResultPage'>
+			{/* ICON */}
+			<div className='iconSection'> {icon} </div>
 
-  // =======================================================================
-  //  UI
-  // =======================================================================
-  return (
-    <div className="ResultPage">
+			{/* TITLE */}
+			<h2 className='title'> {title} </h2>
 
-      {/* ICON */}
-      <div className="iconSection"> {icon} </div>
+			{/* SUB TITLE */}
+			<div className='subTitle'>
+				<Par lineHeight='26px' color={theme.colors.lightText}>
+					{subTitle}
+				</Par>
+			</div>
 
-      {/* TITLE */}
-      <h2 className="title"> {title} </h2>
+			{/* BOTTOM ACTIONS */}
+			{bottomActions && bottomActions.length > 0 && (
+				<div className='bottomActions'>
+					{bottomActions.map((item, index) => (
+						<div key={`bottomAction_${index}`} className='bottomActionWidget'>
+							{item}
+						</div>
+					))}
+				</div>
+			)}
 
-      {/* SUB TITLE */}
-      <div className="subTitle">
-        <Par lineHeight="26px" color={theme.colors.lightText}> {subTitle} </Par>
-      </div>
+			{/* FOOTER */}
+			{footer && <div className='footer'>{footer}</div>}
 
-      {/* BOTTOM ACTIONS */}
-      {(bottomActions && bottomActions.length > 0) && 
-        <div className="bottomActions">
-          {bottomActions.map((item, index) => <div key={`bottomAction_${index}`} className="bottomActionWidget">{item}</div>)}
-        </div>
-      }
+			{/* STYLE */}
+			<style jsx>{`
+				.ResultPage {
+					text-align: center;
+					padding: ${vPadding} 20px;
+				}
 
-      {/* FOOTER */}
-      {footer && <div className="footer">{footer}</div>}
+				.iconSection {
+					margin-bottom: 30px;
+					font-size: 3.7rem;
+					color: ${iconColor};
+				}
 
-      { /* STYLE */}
-      <style jsx>{`
-        .ResultPage {
-          text-align: center;
-          padding: ${vPadding} 20px;         
-        }
+				.iconSection :global(svg *) {
+					fill: ${iconColor};
+				}
 
-        .iconSection {
-          margin-bottom: 30px;
-          font-size: 3.7rem;
-          color: ${iconColor};
-        }
+				.title {
+					margin-bottom: 15px;
+				}
 
-        .iconSection :global(svg *){
-          fill: ${iconColor};
-        }
+				.subTitle {
+					margin: auto;
+					margin-bottom: 35px;
+					max-width: 500px;
+				}
 
-        .title {
-          margin-bottom: 15px;
-        }
+				.ResultPage :global(.roundResultIcon) {
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					border: 5px solid ${iconColor};
+					width: 90px;
+					height: 90px;
+					border-radius: 100%;
+				}
 
-        .subTitle {
-          margin: auto;
-          margin-bottom: 50px;
-          max-width: 500px;
-        }
+				.ResultPage :global(.roundResultIcon svg *) {
+					fill: ${theme.colors.textColor};
+				}
 
-        .ResultPage :global(.roundResultIcon) {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          border: 5px solid ${iconColor};
-          width: 90px;
-          height: 90px;
-          border-radius: 100%;
-        }
+				.footer {
+					margin-top: 40px;
+				}
 
-        .ResultPage :global(.roundResultIcon svg *) {
-          fill: ${theme.colors.textColor};
-        }
+				.bottomActions {
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center;
+					padding: 5px 10px;
+				}
 
-        .footer {
-          margin-top: 40px;
-        }
-
-        .bottomActions {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          padding: 5px 10px;
-        }
-        
-        .bottomActionWidget {
-          padding: 5px;
-        }
-      `}</style>
-    </div>
-  );
+				.bottomActionWidget {
+					padding: 5px;
+				}
+			`}</style>
+		</div>
+	);
 };
 
 export default ResultPage;

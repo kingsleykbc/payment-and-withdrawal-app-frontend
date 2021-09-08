@@ -209,13 +209,13 @@ const FormFieldView = ({
 	/**
 	 * GET CSS
 	 */
-	margin = margin || '0 0 20px 0';
+	margin = margin || '0 0 15px 0';
 	errorAlignment = errorAlignment || 'left';
 	inputWidth = inputWidth ? inputWidth : autoWidth ? 'auto' : '100%';
 	labelFontWeight = labelFontWeight || 'bold';
 	labelColor = labelColor || theme.colors.textColor;
 	labelFontSize = labelFontSize || '0.9rem';
-	background = background || '#fff';
+	background = background || theme.colors.backgroundColor;
 	textareaHeight = textareaHeight || '120px';
 	iconColor = iconColor || theme.colors.lightText;
 

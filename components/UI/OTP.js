@@ -4,6 +4,7 @@ import Lightbox from './Lightbox';
 import AddOrUpdateFieldValue from './OTPComponents/AddOrUpdateFieldValue';
 import AuthenticateField from './OTPComponents/AuthenticateField';
 import Snackbar from './Snackbar';
+import ErrorView from './OTPComponents/ErrorView';
 
 class OTP extends Component {
 	onValidate;
@@ -36,9 +37,23 @@ class OTP extends Component {
 
 		const {
 			field,
-			authContext: { userData }
+			type,
+			authContext: {
+				userData,
+				userData: { phoneNumber, isPhoneVerified, email, isVerified }
+			}
 		} = this.props;
-		this.setState({ view: userData[field] ? 'AuthenticateField' : 'AddOrUpdateFieldValue' });
+
+		// Set the default view based on the current info
+		if (type === 'verification') {
+			// If user hasn't previously entered the field being validated, take them to the input form
+			this.setState({ view: userData[field] ? 'AuthenticateField' : 'AddOrUpdateFieldValue' });
+		} else {
+			// If user hasn't previously entered or verified the field being authenticated, show error
+			const noError = field === 'email' ? email && isVerified : phoneNumber && isPhoneVerified;
+			this.setState({ view: noError ? 'AuthenticateField' : 'ErrorView' });
+		}
+
 		this.toggle();
 	};
 
@@ -68,7 +83,6 @@ class OTP extends Component {
 
 		this.showSnackbarMessage();
 		if (!unmountedAfterUse) this.toggle();
-
 		if (this.onValidate) this.onValidate({ [field]: userData[field] });
 	};
 
@@ -77,14 +91,15 @@ class OTP extends Component {
 	// ===================================================================================================================
 	render() {
 		const { show, view } = this.state;
-		let { title, type, field } = this.props;
+		let { title, type, field, authContext } = this.props;
 		title = title || type === 'authentication' ? 'Authenticate account' : `Verify ${field}`;
 
+		if (!authContext.userData._id) return 'Loading...';
 		return (
 			<>
 				<Lightbox show={show} toggle={this.toggle} showCancelButton={false} isFixed={this.isFixed} width='500px' autoHeight>
 					<h3>{title}</h3>
-
+					{view === 'ErrorView' && <ErrorView {...this.props} />}
 					{view === 'AddOrUpdateFieldValue' && <AddOrUpdateFieldValue setView={this.setView} {...this.props} />}
 					{view === 'AuthenticateField' && (
 						<AuthenticateField onValidateOTP={this.handleValidateOTP} setView={this.setView} {...this.props} />

@@ -40,6 +40,7 @@ const Layout = ({ children }) => {
 					padding: 20px;
 				}
 			`}</style>
+			
 		</div>
 	);
 };

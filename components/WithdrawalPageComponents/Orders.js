@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import Withdraw from '../ProjectUI/Withdraw';
 import WithdrawLightboxButton from '../ProjectUI/WithdrawLightboxButton';
@@ -9,13 +10,24 @@ import Spacing from '../UI/Spacing';
 import Order from './OrdersComponents/Order';
 
 const Orders = ({ authContext, data: { amountDue, orders } }) => {
+	const router = useRouter();
+
 	// ===================================================================================================================
 	//  UI
 	// ===================================================================================================================
 	return (
 		<div className='Orders'>
 			<Spacing padding='30px 0'>
-				<Withdraw amount={amountDue} authContext={authContext} />
+				<Withdraw
+					amount={amountDue}
+					authContext={authContext}
+					onWithdraw={w => {
+						console.log(w);
+						router.reload();
+					}}
+					onError={e => console.log(e)}
+					unmountedAfterUse
+				/>
 			</Spacing>
 
 			<Container hasBorder borderDirections='b' paddingVertical='20px' marginBottom='20px' borderColor='#000'>

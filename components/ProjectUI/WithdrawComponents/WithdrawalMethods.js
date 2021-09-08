@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import PaymentMethod from '../PaymentComponents/PreviousPaymentsComponents/PaymentMethod';
-import Spacing from '../../UI/Spacing';
-// import { deletePaymentMethod } from '../../../utils/apiCalls/withdrawalMethods';
-import { chargePreviousPayment } from '../../../utils/apiCalls/payments';
 import { getError, getTransactionFee } from '../../../utils/functions';
-import Button from '../../UI/Button';
 import ConfirmWithdrawal from './WithdrawalMethodsComponents/ConfirmWithdrawal';
+import { deleteWithdrawalMethod } from '../../../utils/apiCalls/withdrawalMethods';
+import { initializeFundsWithdrawal } from '../../../utils/apiCalls/withdrawals';
+import NoWithdrawalMethods from './WithdrawalMethodsComponents/NoWithdrawalMethods';
 
 const WithdrawalMethods = ({
 	authContext: {
@@ -13,15 +12,47 @@ const WithdrawalMethods = ({
 		refreshUserData
 	},
 	charge,
-	onPay,
 	onError,
 	amount,
-	snackbarRef
+	setView,
+	setAuthField,
+	setWithdrawalInitialization,
+	snackbarRef,
+	otpRef
 }) => {
 	const [amountObject, setAmountObject] = useState(getTransactionFee(amount, 'withdrawal', 'paystack'));
 	const [selectedWithdrawalMethod, setSelectedWithdrawalMethod] = useState(null);
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+
+	/**
+	 * MAKE WITHDRAWAL
+	 */
+	const handleWithdrawFunds = async () => {
+		setIsLoading(true);
+		try {
+			const initialization = await initializeFundsWithdrawal(selectedWithdrawalMethod._id);
+			setWithdrawalInitialization(initialization);
+			setView('FinalizeWithdrawal');
+		} catch (e) {
+			const { message } = getError(e);
+			setError(message);
+			if (onError) onError(message);
+			setIsLoading(false);
+		}
+	};
+
+	/**
+	 * WITHDRAW FUNDS
+	 */
+	const withdrawFunds = () => {
+		otpRef.current.sendOTP({
+			onValidate: async authField => {
+				setAuthField(authField);
+				handleWithdrawFunds();
+			}
+		});
+	};
 
 	/**
 	 * LIST WITHDRAWAL METHODS
@@ -30,10 +61,10 @@ const WithdrawalMethods = ({
 		const isSelected = _id === (selectedWithdrawalMethod && selectedWithdrawalMethod._id);
 
 		const removeFunc = async () => {
-			// await deletePaymentMethod(_id);
+			await deleteWithdrawalMethod(_id);
 			await refreshUserData();
 			if (isSelected) setSelectedWithdrawalMethod(null);
-			snackbarRef.current.openSnackbar({ type: 'error', message: 'Payment method removed' });
+			snackbarRef.current.openSnackbar({ type: 'error', message: 'Withdrawal method removed' });
 		};
 		const selectFunc = () => setSelectedWithdrawalMethod(withdrawalMethods[ind]);
 		return (
@@ -50,28 +81,12 @@ const WithdrawalMethods = ({
 		);
 	});
 
-	/**
-	 * MAKE WITHDRAWAL
-	 */
-	const withdrawFunds = async () => {
-		setIsLoading(true);
-		try {
-			const payment = await chargePreviousPayment(amount, selectedWithdrawalMethod._id);
-			onPay(payment);
-			snackbarRef.current.openSnackbar({ type: 'success', message: 'Payment successful' });
-		} catch (e) {
-			const { message } = getError(e);
-			setError(message);
-			onError(message);
-		}
-		setIsLoading(false);
-	};
-
 	// ===================================================================================================================
 	//  UI
 	// ===================================================================================================================
 	return (
 		<div className='WithdrawalMethods'>
+			{withdrawalMethods.length === 0 && <NoWithdrawalMethods />}
 			<div className='withdrawalMethodsList'>{withdrawalMethodsWidgets}</div>
 			{selectedWithdrawalMethod && <ConfirmWithdrawal isLoading={isLoading} withdrawFunds={withdrawFunds} amountObject={amountObject} />}
 			{error && <h5>{error}</h5>}
@@ -80,10 +95,6 @@ const WithdrawalMethods = ({
 			<style jsx>{`
 				.WithdrawalMethods {
 					margin-top: 15px;
-				}
-				.withdrawalMethodsList {
-					display: flex;
-					flex-wrap: wrap;
 				}
 			`}</style>
 		</div>
