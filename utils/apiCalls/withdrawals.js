@@ -49,11 +49,11 @@ export const initializeFundsWithdrawal = async withdrawalMethodID => {
  * 	withdrawalDetails: {withdrawalMethodID, payment: {__PaymentData}}
  * }} - Withdrawal details (equivalent of {method, data} for payment)
  */
-export const finalizeFundsWithdrawal = async (initialization, authData) => {
+export const finalizeFundsWithdrawal = async (initialization, authData, authField) => {
 	const data = await protectedAPICall({
 		method: 'post',
 		url: `${DOMAIN}/orders/withdrawFunds/finalize`,
-		data: { initialization, authData }
+		data: { initialization, authData, authField }
 	});
 	return data;
 };

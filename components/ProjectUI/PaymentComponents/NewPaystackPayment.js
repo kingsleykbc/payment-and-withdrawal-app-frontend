@@ -23,7 +23,12 @@ const NewPaystackPayment = ({ snackbarRef, keys = {}, amount, onPay, onError, re
 		}
 		const { reference } = data;
 		setReference('REF_' + new Date().getTime());
-		onPay({ method: 'Paystack charge', data: { reference }, amount: getTransactionFee(amount, 'payment', 'paystack') });
+		onPay({
+			method: 'Paystack charge',
+			provider: 'paystack',
+			data: { reference },
+			amount: getTransactionFee(amount, 'payment', 'paystack')
+		});
 		if (saveNewPayment) {
 			await savePaymentMethod('paystack-authorization', { reference });
 			refreshUserData();

@@ -17,8 +17,7 @@ export const getOrders = async tokens => {
  * CREATE ORDER
  *
  * This endpoint creates a new order.
- * @param {Number} amount - Amount being charged
- * @param {String} paymentMethodID - Payment method ID
+ * @param {{method, data, amount, provider}} amount - Amount being charged
  * @returns {{ price, hasWithdrawn, paymentID }} - Order
  */
 export const createOrder = async payment => {

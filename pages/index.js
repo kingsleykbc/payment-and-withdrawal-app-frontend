@@ -24,7 +24,10 @@ const payment = ({ secretKey, publicKey }) => {
 	return (
 		<Layout>
 			{authContext.isAuthenticated ? (
-				<Payment onPay={handlePayment} authContext={authContext} amount={3000} keys={{ secretKey, publicKey }} />
+				<>
+					<Payment onPay={handlePayment} authContext={authContext} amount={3000} keys={{ secretKey, publicKey }} />
+					<PaymentLightboxButton authContext={authContext} />
+				</>
 			) : (
 				<>
 					<h1>Welcome to the site</h1>

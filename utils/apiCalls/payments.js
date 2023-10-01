@@ -25,7 +25,8 @@ export const getPaymentDetails = async (key, keyType = 'paymentID') => {
  * @returns {{
  * 	method: "Paystack charge"|"Paystack transfer",
  * 	data: Object,
- * 	amount: {amount, billerFee, amountForBillerCharge, amountAfterFees, totalFee, appFee }
+ * 	amount: {amount, billerFee, amountForBillerCharge, amountAfterFees, totalFee, appFee },
+ * 	provider: "paystack"
  * }}
  */
 export const chargePreviousPayment = async (amount, paymentMethodID) => {

@@ -78,7 +78,7 @@ const Payment = ({
 						keys={keys}
 						refreshUserData={refreshUserData}
 						snackbarRef={snackbarRef}
-					/>{' '}
+					/>
 				</>
 			)}
 
