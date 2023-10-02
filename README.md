@@ -1,34 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# payment-and-withdrawal-frontend
+
+This is a [Next.js](https://nextjs.org/) frontend for a payment and withdrawal system. It provides a user interface for making payments (integrated with Paystack), saving payment methods, and facilitating withdrawals. Note that the backend logic and services for this project reside in a separate repository.
 
 ## Getting Started
 
-First, run the development server:
+First, clone the repository and navigate to its root directory. Then, run the development server:
 
-```bash
-npm run dev
+bashCopy code
+
+`npm run dev
+
 # or
-yarn dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+yarn dev`
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000/) with your browser to explore the payment and withdrawal functionalities.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Development can be started by editing the main page at `pages/index.js`. Your changes will automatically reflect in the browser as you save the file.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Any [API routes](https://nextjs.org/docs/api-routes/introduction) present can be accessed via [http://localhost:3000/api/hello](http://localhost:3000/api/hello). To modify this endpoint, refer to `pages/api/hello.js`.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Note: The `pages/api` directory routes to `/api/*`. Files within are recognized as [API routes](https://nextjs.org/docs/api-routes/introduction), distinct from regular React pages.
