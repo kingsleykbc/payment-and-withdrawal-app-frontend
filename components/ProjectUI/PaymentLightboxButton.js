@@ -27,7 +27,7 @@ const PaymentLightboxButton = ({
 					onPay={onPay}
 					onError={onError}
 					authContext={authContext}
-					amount={3000}
+					amount={amount}
 					keys={keys}
 					unmountedAfterUse={unmountedAfterUse}
 					onClose={() => {

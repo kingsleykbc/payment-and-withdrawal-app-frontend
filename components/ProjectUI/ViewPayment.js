@@ -3,7 +3,6 @@ import { getPaymentDetails } from '../../utils/apiCalls/payments';
 import Lightbox from '../UI/Lightbox';
 import TextButton from '../UI/TextButton';
 import PaymentDetails from './ViewPaymentComponents/PaymentDetails';
-import { useReactToPrint } from 'react-to-print';
 
 const ViewPayment = ({ label = 'View payment', paymentID, receiptNo }) => {
 	const [showLB, setShowLB] = useState(false);
